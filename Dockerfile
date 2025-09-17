@@ -7,10 +7,8 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# ---------- Runtime Stage ----------
-FROM eclipse-temurin:21-jdk-alpine
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-
+# Runtime stage
+FROM eclipse-temurin:21-jdk-jammy
+COPY --from=build /target/ecommerce-app-0.0.1-SNAPSHOT.jar demo.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","demo.jar"]
