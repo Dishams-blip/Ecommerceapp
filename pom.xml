@@ -8,10 +8,10 @@
 		<version>3.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.mtd</groupId>
-	<artifactId>ecomapp</artifactId>
+	<groupId>com.proj1</groupId>
+	<artifactId>EcomApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ecomapp</name>
+	<name>EcomApp</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -55,13 +55,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+	
 	<dependency>
 		    <groupId>org.springdoc</groupId>
 		    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		    <version>2.5.0</version>
 		</dependency>
-
+</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -90,5 +90,6 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 
 </project>
