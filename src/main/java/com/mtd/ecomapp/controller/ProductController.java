@@ -27,7 +27,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/{id}")
-	public Product findById(String id) {
+	public Product findById(@PathVariable String id) {
 			return productService.getProductById(id);
 		}
 	@GetMapping("/all")
@@ -39,7 +39,7 @@ public class ProductController {
 		return productService.updateProduct(product,id);
 	}
 	@DeleteMapping("/{id}")
-	public boolean deleteProduct(String id) {
+	public boolean deleteProduct(@PathVariable String id) {
 		return productService.deleteProduct(id);
 	}
 }
