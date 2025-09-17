@@ -1,44 +1,56 @@
-package com.proj1.EcomApp.controller;
+package com.mtd.ecomapp.controller;
+
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.proj1.EcomApp.entity.Product;
-import com.proj1.EcomApp.service.ProductService;
+import com.mtd.ecomapp.entity.Product;
+import com.mtd.ecomapp.service.Productservice;
 
 @RestController
-@RequestMapping("/Products")
+@RequestMapping("/products")
 public class ProductController {
-	@Autowired
-	private ProductService productService;
-	@PostMapping("/save")
-	public Product save(@RequestBody Product product) {
-		return productService.saveProduct(product);
-		
-	}
-	@GetMapping("/{id}")
-	public Product findById(@PathVariable String id) {
-		return productService.getProductById(id);
-	}
-	@GetMapping("/all")
-	public List<Product> findAll(){
-		return productService.getProducts();
-	}
-	@PutMapping("/{id}")
-	public Product updateproduct(@RequestBody Product product,@PathVariable String id) {
-		return productService.updateProduct(product, id);
-	}
-	@DeleteMapping("/{id}")
-	public boolean deleteProduct(@PathVariable String id) {
-		return productService.deleteProduct(id);
-	}
 
+    private final Productservice productService;
+
+    // ✅ Constructor Injection (recommended instead of @Autowired)
+    public ProductController(Productservice productService) {
+        this.productService = productService;
+    }
+
+    // ✅ Create Product
+    @PostMapping
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        Product saved = productService.saveProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    // ✅ Get Product by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable String id) {
+        Product product = productService.getProductById(id);
+        return product != null ? ResponseEntity.ok(product) : ResponseEntity.notFound().build();
+    }
+
+    // ✅ Get All Products
+    @GetMapping
+    public ResponseEntity<List<Product>> findAll() {
+        return ResponseEntity.ok(productService.getProducts());
+    }
+
+    // ✅ Update Product
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable String id) {
+        Product updated = productService.updateProduct(product, id);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+    }
+
+    // ✅ Delete Product
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
+        boolean deleted = productService.deleteProduct(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
 }
